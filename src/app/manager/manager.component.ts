@@ -68,7 +68,7 @@ export class ManagerComponent implements OnInit {
   saveData() {
     let data = this.deleteExtraRows();
     this.dataService.saveTaskData(data).subscribe(() => {
-      console.log("SAVED");
+      alert("Saved");
     });
   }
 
