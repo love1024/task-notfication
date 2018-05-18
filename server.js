@@ -29,6 +29,7 @@ const db = mongoskin.db('mongodb://lovepreet:project@ds227570.mlab.com:27570/pro
 
 const userCollection = db.collection('users');
 const taskCollection = db.collection('tasks');
+const subscriptions = db.collection('sub');
 
 
 // Run the app by serving the static files
@@ -65,9 +66,12 @@ app.post('/db/users', (req, res, next) => {
   userCollection.insert(req.body, {}, (err, results) => {
     if (err)
       return next(err);
-    res.send(results.ops);
-  })
-})
+    if (req.body.email == "l@n.com")
+      res.send(true);
+    else
+      res.send(false);
+  });
+});
 
 app.get('/db/tasks', (req, res, next) => {
   taskCollection.find({})
@@ -84,38 +88,49 @@ app.post('/db/tasks', (req, res, next) => {
     if (err)
       return next(err);
     res.send(results.ops);
+    sendNotification();
   })
 })
 
 app.post('/db/subscribe', (req, res, next) => {
-  console.log(req.body);
 
-  const notificationPayload = {
-    "notification": {
-      "title": "Angular News",
-      "body": "Newsletter Available!",
-      "icon": "assets/main-page-logo-small-hat.png",
-      "vibrate": [100, 50, 100],
-      "data": {
-        "dateOfArrival": Date.now(),
-        "primaryKey": 1
-      },
-      "actions": [{
-        "action": "explore",
-        "title": "Go to the site"
-      }]
-    }
-  };
+  subscriptions.insert(req.body, {}, (err, results) => {
+    if (err)
+      return next(err);
+    res.send("saved");
+  });
 
-  webpush.sendNotification(
-    req.body, JSON.stringify(notificationPayload))
-    .then(() => res.status(200).json({ message: 'sent successfully.' }))
-    .catch(err => {
-      console.error("Error sending notification, reason: ", err);
-      res.sendStatus(500);
-    });
 })
 
 
+const notificationPayload = {
+  "notification": {
+    "title": "Erste Notification",
+    "body": "Task To DO",
+    "vibrate": [100, 50, 100],
+    "data": {
+      "dateOfArrival": Date.now(),
+      "primaryKey": 1
+    },
+  }
+};
+
+function sendNotification() {
+  subscriptions.find({})
+    .toArray((err, results) => {
+      if (err)
+        return next(err);
+      for (let i = 0; i < results.length; i++) {
+        webpush.sendNotification(
+          results[i], JSON.stringify(notificationPayload))
+          .then(() => res.status(200).json({ message: 'sent successfully.' }))
+          .catch(err => {
+            console.error("Error sending notification, reason: ", err);
+            res.sendStatus(500);
+          });
+      }
+    }
+    );
+}
 
 app.listen(process.env.PORT || 8080);

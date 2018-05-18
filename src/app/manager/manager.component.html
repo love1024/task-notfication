@@ -12,8 +12,12 @@
             [(ngModel)]="curRow.task" />
         </td>
         <td>
-          <input type="email"
-            [(ngModel)]="curRow.name" />
+          <select type="email"
+            [(ngModel)]="curRow.name">
+            {{curRow.name}}
+            <option *ngFor="let user of users"
+              [selected]="curRow.name == user.email">{{user.email}}</option>
+          </select>
         </td>
         <td>
           <input type="date"

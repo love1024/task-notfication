@@ -15,6 +15,7 @@ interface Task {
 export class ManagerComponent implements OnInit {
 
   data: Array<Task>;
+  users: any;
 
   constructor(private dataService: DataService) { }
 
@@ -23,6 +24,9 @@ export class ManagerComponent implements OnInit {
       this.data = data;
       console.log("GETTING", this.data);
       this.fillExtraRows();
+    });
+    this.dataService.getUserData().subscribe((users: any) => {
+      this.users = users;
     });
 
   }

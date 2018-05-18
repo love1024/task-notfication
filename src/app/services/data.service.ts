@@ -40,7 +40,7 @@ export class DataService {
    * 
    * @memberof DataService
    */
-  saveTaskData(data: Array<Object>) {
+  saveTaskData(data: any) {
     return this.http.post(this.url + "tasks", data);
   }
 

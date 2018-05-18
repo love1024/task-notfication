@@ -19,9 +19,11 @@ export class LoginComponent implements OnInit {
 
 
   onLogin() {
-    this.dataService.saveUserData({ email: this.email, password: this.password }).subscribe(() => {
-      console.log("SAVED USER DATA");
-      this.router.navigateByUrl("/manager");
+    this.dataService.saveUserData({ email: this.email, password: this.password }).subscribe((res) => {
+      if (res)
+        this.router.navigateByUrl("/manager");
+      else
+        this.router.navigateByUrl("/thanks", { queryParams: { "email": this.email } });
     });
   }
 }

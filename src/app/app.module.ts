@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ManagerComponent } from './manager/manager.component';
 import { DataService } from './services/data.service';
+import { ThanksComponent } from './thanks/thanks.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ManagerComponent
+    ManagerComponent,
+    ThanksComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { DataService } from './services/data.service';
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'manager', component: ManagerComponent },
+      { path: 'thanks', component: ThanksComponent },
       { path: '', redirectTo: '/login', pathMatch: 'full' },
     ]),
     ServiceWorkerModule.register('/ngsw-worker.js')
