@@ -43,4 +43,8 @@ export class DataService {
   saveTaskData(data: Array<Object>) {
     return this.http.post(this.url + "tasks", data);
   }
+
+  addPushSubscriber(sub) {
+    return this.http.post(this.url + "sub", sub);
+  }
 }
