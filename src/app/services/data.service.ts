@@ -45,6 +45,6 @@ export class DataService {
   }
 
   addPushSubscriber(sub) {
-    return this.http.post(this.url + "sub", sub);
+    return this.http.post(this.url + "subscribe", sub);
   }
 }
