@@ -88,7 +88,8 @@ app.post('/db/tasks', (req, res, next) => {
     if (err)
       return next(err);
     res.send(results.ops);
-    sendNotification();
+    console.log(req.body[0].task);
+    sendNotification(req.body[0].task);
   })
 })
 
@@ -115,7 +116,7 @@ const notificationPayload = {
   }
 };
 
-function sendNotification() {
+function sendNotification(task) {
   subscriptions.find({})
     .toArray((err, results) => {
       if (err)
