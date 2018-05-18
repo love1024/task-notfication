@@ -1,0 +1,27 @@
+<div class="container">
+  <table>
+    <thead>
+      <th>Task</th>
+      <th>Assigned to</th>
+      <th>Date</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let curRow of data">
+        <td>
+          <input type="text"
+            [(ngModel)]="curRow.task" />
+        </td>
+        <td>
+          <input type="email"
+            [(ngModel)]="curRow.name" />
+        </td>
+        <td>
+          <input type="date"
+            [(ngModel)]="curRow.date" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="saveData()"
+    class="saveButton">Save</button>
+</div>
